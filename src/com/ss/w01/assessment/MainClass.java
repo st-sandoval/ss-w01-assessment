@@ -14,6 +14,7 @@ public class MainClass {
 	
 	String message;
 	List<Integer> partTwoArgs = Arrays.asList(55, 4, 95784, 0, 111111, 10, 9);
+	List<Integer> partThreeArgs = Arrays.asList(-1, 12345, -485, 0, 1277885, 1, 10);
 	
 	public MainClass() {};
 	
@@ -41,7 +42,14 @@ public class MainClass {
 			e.printStackTrace();
 		}
 		
-		
+		try {
+			System.out.println();
+			System.out.println("------- Part Three -------");
+			System.out.println(app.partThreeArgs);
+			System.out.println(app.partThree(app.partThreeArgs));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void partOne(String [] args) throws ArrayIndexOutOfBoundsException, NumberFormatException {
@@ -116,6 +124,15 @@ public class MainClass {
 	}
 	
 	private List<Integer> partTwo(List<Integer> args) {
+		IsinglesDigit singlesDigit = x -> x % 10;
+		
+		List<Integer> postOpArgs = args.stream().map(x -> singlesDigit.run(x))
+			.collect(Collectors.toCollection(ArrayList<Integer>::new));
+		
+		return postOpArgs;
+	}
+	
+	private List<Integer> partThree(List<Integer> args) {
 		
 		ItimesTwo timesTwo = x -> x * 2;
 		
@@ -125,9 +142,7 @@ public class MainClass {
 		return postOpArgs;
 	}
 	
-	private void partThree() {
-		
-	}
+	
 	
 	public String printMessage() {
 		System.out.print(this.message);
