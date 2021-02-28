@@ -1,7 +1,7 @@
 package com.ss.w01.assessment;
 
-public interface IisPalindrome {
+public interface IisPalindrome extends Ilambdas{
 	
-	String isPalindrome(Integer x);
+	String metho(Integer x);
 }
 

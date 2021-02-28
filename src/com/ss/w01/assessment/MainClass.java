@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
 import java.util.HashMap;
+import java.lang.reflect.Method;
+import java.util.function.Consumer;
+
 
 
 public class MainClass {
@@ -19,9 +22,8 @@ public class MainClass {
 
 	public static void main(String []args) {
 		Integer[][] intArgs = new Integer[args.length/2][2];
-		HashMap<Integer, Object> lambdas = new HashMap<Integer, Object>();
-		HashMap<Integer, Integer> argsMap = new HashMap<Integer, Integer>();
-		
+		HashMap<Integer, Ilambdas> lambdas = new HashMap<>();
+		ArrayList lambdasArray = new ArrayList();
 		Integer count = 0;
 		
 //		for(String x : args) {
@@ -51,15 +53,7 @@ public class MainClass {
 			count++;
 			System.out.println("args[i]: " + args[i] + " .. args[i + 1]" + args[i+1]);
 			
-			
-			
-			
-//			System.out.println("iteration: " + i + " . intArgs[i]: " + intArgs[i]);
 		}
-		for(Integer[] index : intArgs) {
-			System.out.println("index 0 and 1: " + index[0] + ", " + index[1]);
-			
-		};
 		
 //		System.out.println("argsMap: " + argsMap);
 //		
@@ -68,15 +62,13 @@ public class MainClass {
 //		});
 //		
 		
-		
-		IisOdd isOdd = x -> {
-			System.out.println("Inside isOdd lambda, x = " + x);
+		 Ilambdas isOdd = x -> {
 			if( x % 2 == 1) return "ODD";
 
 			return "EVEN";
 		};
 		
-		IisPrime isPrime = x -> {
+		Ilambdas isPrime = x -> {
 			if(x <= 1) return "COMPOSITE";
 
 			if(x == 2) return "PRIME";
@@ -90,18 +82,37 @@ public class MainClass {
 			return "PRIME";
 		};
 		
-		IisPalindrome isPalindrome = x -> {
+		Ilambdas isPalindrome = x -> {
+			Integer reverse = 0;
+			Integer forward = Integer.valueOf(x);
+			
+			while(forward != 0) {
+				Integer digit = forward % 10;
+				
+				reverse = reverse * 10 + digit;
+				
+				forward /= 10;
+			}
+
+			if(x.equals(reverse)) return "PALINDROME";
 			
 			return "NOT PALINDROME";
 		};
 		
+		//add lambda functions to lambda hashmap so they may be recalled by integer key
 		lambdas.put(1, isOdd);
 		lambdas.put(2, isPrime);
 		lambdas.put(3, isPalindrome);
 		
-//		Arrays.stream(args).forEach(x ->{
-//			System.out.print("array stream of args, x: " + x);
-//		});;
+		Arrays.stream(intArgs).forEach(x -> {
+			System.out.println(x[1]);
+			
+			Ilambdas func = lambdas.get(x[0]);
+			func.metho(x[1]);
+			System.out.println(func.metho(x[1]));
+			
+			
+		});
 		
 		List<Integer[]> intCollection = Arrays.asList(intArgs);
 //		List<Integer> oddList = intCollection.stream().filter(x -> isOdd.isOdd(x)).collect(Collectors.toList());

@@ -1,6 +1,6 @@
 package com.ss.w01.assessment;
 
-public interface IisPrime {
+public interface IisPrime extends Ilambdas {
 
-	String isPrime(Integer x);
+	String metho(Integer x);
 }

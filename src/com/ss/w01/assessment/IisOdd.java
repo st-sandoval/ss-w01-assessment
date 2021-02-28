@@ -1,7 +1,7 @@
 package com.ss.w01.assessment;
 
-public interface IisOdd {
+public interface IisOdd extends Ilambdas{
 
-	String isOdd(Integer x);
+	String metho(Integer x);
 	
 }
