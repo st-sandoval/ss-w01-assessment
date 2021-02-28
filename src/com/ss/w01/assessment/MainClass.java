@@ -15,6 +15,7 @@ public class MainClass {
 	String message;
 	List<Integer> partTwoArgs = Arrays.asList(55, 4, 95784, 0, 111111, 10, 9);
 	List<Integer> partThreeArgs = Arrays.asList(-1, 12345, -485, 0, 1277885, 1, 10);
+	List<String> partFourArgs = Arrays.asList("red","rexd","bluex","blue", "xxgreenxx", "xx", "x", "xx red xx", " ", "");
 	
 	public MainClass() {};
 	
@@ -47,6 +48,15 @@ public class MainClass {
 			System.out.println("------- Part Three -------");
 			System.out.println(app.partThreeArgs);
 			System.out.println(app.partThree(app.partThreeArgs));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			System.out.println();
+			System.out.println("------- Part Four -------");
+			System.out.println(app.partFourArgs);
+			System.out.println(app.partFour(app.partFourArgs));
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -142,7 +152,15 @@ public class MainClass {
 		return postOpArgs;
 	}
 	
-	
+	private List<String> partFour(List<String> args) {
+		IremoveX removeX = x -> {
+			
+			return x.replaceAll("x", "");
+		};
+		
+		List<String> postOpArgs = args.stream().map(x -> removeX.run(x)).collect(Collectors.toCollection(ArrayList<String>::new));
+		return postOpArgs;
+	}
 	
 	public String printMessage() {
 		System.out.print(this.message);
