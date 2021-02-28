@@ -13,12 +13,38 @@ import java.util.HashMap;
 public class MainClass {
 	
 	String message;
+	List<Integer> partTwoArgs = Arrays.asList(55, 4, 95784, 0, 111111, 10, 9);
+	
+	public MainClass() {};
 	
 	public MainClass(String message){
 		this.message = message;
 	}
 
 	public static void main(String []args) {
+		
+		MainClass app = new MainClass();
+		
+		try {
+			System.out.println("------- Part One -------");
+			app.partOne(args);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			System.out.println();
+			System.out.println("------- Part Two -------");
+			System.out.println(app.partTwoArgs);
+			System.out.println(app.partTwo(app.partTwoArgs));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	private void partOne(String [] args) throws ArrayIndexOutOfBoundsException, NumberFormatException {
 		//Declare matrix to store args in pairs (inside arrays) parsed as Integers
 		Integer[][] intArgs = new Integer[args.length/2][2];
 		
@@ -37,6 +63,7 @@ public class MainClass {
 		//Override methods from functional classes, all typed as a shared parent interface so that they may be
 		//typed the same for compatibility with HashMap
 		 Ilambdas isOdd = x -> {
+			 
 			if( x % 2 == 1) return "ODD";
 
 			return "EVEN";
@@ -59,6 +86,7 @@ public class MainClass {
 		Ilambdas isPalindrome = x -> {
 			Integer reverse = 0;
 			Integer forward = Integer.valueOf(x);
+			if(forward < 0) forward *= -1;
 			
 			while(forward != 0) {
 				Integer digit = forward % 10;
@@ -83,23 +111,26 @@ public class MainClass {
 			System.out.print(x[1] + ":  ");
 			
 			Ilambdas func = lambdas.get(x[0]);
-			func.metho(x[1]);
-			System.out.println(func.metho(x[1]));
+			System.out.println(func.run(x[1]));
 		});
-		
 	}
 	
+	private List<Integer> partTwo(List<Integer> args) {
+		
+		ItimesTwo timesTwo = x -> x * 2;
+		
+		List<Integer> postOpArgs = args.stream().map(x -> timesTwo.run(x))
+			.collect(Collectors.toCollection(ArrayList<Integer>::new));
+		
+		return postOpArgs;
+	}
 	
+	private void partThree() {
+		
+	}
 	
 	public String printMessage() {
 		System.out.print(this.message);
 		return this.message;
-	}
-}
-
-
-class Streamer {
-	Streamer (int x){
-		System.out.println(x);
 	}
 }
