@@ -37,10 +37,17 @@ public class MainClass {
 		try {
 			System.out.println();
 			System.out.println("------- Part Two -------");
+			app.partTwoArgs.forEach(x->{
+				if(x < 0) {
+					throw new IllegalArgumentException("Part two method does not accept negative numbers.");
+				}
+			});
 			System.out.println(app.partTwoArgs);
 			System.out.println(app.partTwo(app.partTwoArgs));
-		}catch(Exception e) {
+		}catch(NoNegativesException e) {
 			e.printStackTrace();
+			throw new NoNegativesException("Please remove any negative numbers.", e);
+			
 		}
 		
 		try {
@@ -60,7 +67,26 @@ public class MainClass {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+//		try {
+//			System.out.println();
+//			System.out.println("------- Part Five -------");
+//			System.out.println(app.partFourArgs);
+//			System.out.println(app.partFour(app.partFourArgs));
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//		}
+		
+		try {
+			System.out.println();
+			System.out.println("------- Part 6 -------");
+			SampleSingleton singy = new SampleSingleton();
+			System.out.println(singy.toString());
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
+	
 	
 	private void partOne(String [] args) throws ArrayIndexOutOfBoundsException, NumberFormatException {
 		//Declare matrix to store args in pairs (inside arrays) parsed as Integers
@@ -133,8 +159,8 @@ public class MainClass {
 		});
 	}
 	
-	private List<Integer> partTwo(List<Integer> args) {
-		IsinglesDigit singlesDigit = x -> x % 10;
+	private List<Integer> partTwo(List<Integer> args) throws NoNegativesException{
+		IsinglesDigit singlesDigit = x -> x % 10; 
 		
 		List<Integer> postOpArgs = args.stream().map(x -> singlesDigit.run(x))
 			.collect(Collectors.toCollection(ArrayList<Integer>::new));
