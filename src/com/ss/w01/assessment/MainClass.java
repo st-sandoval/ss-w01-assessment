@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
 import java.util.HashMap;
-import java.lang.reflect.Method;
-import java.util.function.Consumer;
 
 
 
@@ -21,47 +19,23 @@ public class MainClass {
 	}
 
 	public static void main(String []args) {
+		//Declare matrix to store args in pairs (inside arrays) parsed as Integers
 		Integer[][] intArgs = new Integer[args.length/2][2];
+		
+		//HashMap to hold lambdas in key value pairs for dynamic invocation/overriding of the metho method from 
+		//share parent Ilambdas interface
 		HashMap<Integer, Ilambdas> lambdas = new HashMap<>();
-		ArrayList lambdasArray = new ArrayList();
 		Integer count = 0;
 		
-//		for(String x : args) {
-//			System.out.println("enhanced for args: " + x);
-//			if(count == 0 || count == args.length) {
-//				count++;
-//				continue;	
-//			}else{
-//				count++;
-//				String[] partial = x.split(" ");
-//				argsMap.put(Integer.parseInt(partial[0]), Integer.parseInt(partial[1]));
-//			}
-//			
-//			
-//		}
-		
-//		for(int i = 1; i > args.length; i+=2) {
-//			argsMap.put(Integer.parseInt(args[i]), Integer.parseInt(args[1 + 1]));
-//		};
-		
-		
-		
+		//iterate "lines" of incoming args and copy them into matrix
 		for(int i = 1; i < args.length; i+=2) {
 			intArgs[count][i% 2 - 1] = Integer.parseInt(args[i]);
 			intArgs[count][i% 2] = Integer.parseInt(args[i + 1]);
-			
 			count++;
-			System.out.println("args[i]: " + args[i] + " .. args[i + 1]" + args[i+1]);
-			
 		}
 		
-//		System.out.println("argsMap: " + argsMap);
-//		
-//		argsMap.forEach((key, value) -> {
-//			System.out.println("key: " + key + " .. Value: " + value);
-//		});
-//		
-		
+		//Override methods from functional classes, all typed as a shared parent interface so that they may be
+		//typed the same for compatibility with HashMap
 		 Ilambdas isOdd = x -> {
 			if( x % 2 == 1) return "ODD";
 
@@ -99,29 +73,20 @@ public class MainClass {
 			return "NOT PALINDROME";
 		};
 		
-		//add lambda functions to lambda hashmap so they may be recalled by integer key
+		//add lambda functions to lambda HashMap so they may be recalled by integer key
 		lambdas.put(1, isOdd);
 		lambdas.put(2, isPrime);
 		lambdas.put(3, isPalindrome);
 		
+		//stream used to iterate through matrix of arg pairs and apply corresponding lambdas
 		Arrays.stream(intArgs).forEach(x -> {
 			System.out.println(x[1]);
 			
 			Ilambdas func = lambdas.get(x[0]);
 			func.metho(x[1]);
 			System.out.println(func.metho(x[1]));
-			
-			
 		});
 		
-		List<Integer[]> intCollection = Arrays.asList(intArgs);
-//		List<Integer> oddList = intCollection.stream().filter(x -> isOdd.isOdd(x)).collect(Collectors.toList());
-//		intCollection.stream().map(x -> isOdd.isOdd(x)).forEach(x -> {System.out.println(x);});
-		
-//		oddList.forEach(x -> {
-//			System.out.println("oddList: " + x);
-//		});
-//		
 	}
 	
 	
