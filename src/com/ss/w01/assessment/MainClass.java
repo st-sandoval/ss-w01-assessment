@@ -80,7 +80,7 @@ public class MainClass {
 		
 		//stream used to iterate through matrix of arg pairs and apply corresponding lambdas
 		Arrays.stream(intArgs).forEach(x -> {
-			System.out.println(x[1]);
+			System.out.print(x[1] + ":  ");
 			
 			Ilambdas func = lambdas.get(x[0]);
 			func.metho(x[1]);
