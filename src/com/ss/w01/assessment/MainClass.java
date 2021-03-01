@@ -4,11 +4,10 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
 import java.util.HashMap;
-
-
 
 public class MainClass {
 	
@@ -16,6 +15,9 @@ public class MainClass {
 	List<Integer> partTwoArgs = Arrays.asList(55, 4, 95784, 0, 111111, 10, 9);
 	List<Integer> partThreeArgs = Arrays.asList(-1, 12345, -485, 0, 1277885, 1, 10);
 	List<String> partFourArgs = Arrays.asList("red","rexd","bluex","blue", "xxgreenxx", "xx", "x", "xx red xx", " ", "");
+	Integer[] groupSumArray1 = {1, 2, 3, 4};
+	Integer[] groupSumArray2 = {1,1,1,1,2,2,3,4,5,5,5};
+
 	
 	public MainClass() {};
 	
@@ -68,14 +70,16 @@ public class MainClass {
 			e.printStackTrace();
 		}
 		
-//		try {
-//			System.out.println();
-//			System.out.println("------- Part Five -------");
-//			System.out.println(app.partFourArgs);
-//			System.out.println(app.partFour(app.partFourArgs));
-//		}catch(Exception e) {
-//			e.printStackTrace();
-//		}
+		try {
+			System.out.println();
+			System.out.println("------- Part Five -------");
+			System.out.println(app.groupSumArray1.toString());
+			System.out.println(app.partFive(0, app.groupSumArray1, 7));
+			System.out.println(app.groupSumArray2.toString());
+			System.out.println(app.partFive(0, app.groupSumArray2, 8));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 		try {
 			System.out.println();
@@ -160,8 +164,10 @@ public class MainClass {
 	}
 	
 	private List<Integer> partTwo(List<Integer> args) throws NoNegativesException{
+		//simple lambda instance to modulo the singles digit off an integer
 		IsinglesDigit singlesDigit = x -> x % 10; 
 		
+		//integer list to stream, map stream, collect back into integer list after
 		List<Integer> postOpArgs = args.stream().map(x -> singlesDigit.run(x))
 			.collect(Collectors.toCollection(ArrayList<Integer>::new));
 		
@@ -187,6 +193,29 @@ public class MainClass {
 		List<String> postOpArgs = args.stream().map(x -> removeX.run(x)).collect(Collectors.toCollection(ArrayList<String>::new));
 		return postOpArgs;
 	}
+	
+	private boolean partFive(int start, Integer[] intArray, int target) {
+
+		//traverse through array, incrementing our starting index each iteration 
+		//for each iteration we must: use the int we are on, or not use the int we are on
+		//break recursion if hit a true return, or if our index counter becomes greater than the length of our array 
+		
+		if(target == 0) {
+			return true;
+		}else if(start >= intArray.length) {
+			return false;
+		}else {
+			Integer groupEnd = start;
+			while(groupEnd < intArray.length && intArray[groupEnd] == intArray[start]) {
+				groupEnd++;
+			}
+			Integer groupLength = groupEnd - start;
+			return partFive(groupEnd, intArray, target) || partFive(groupEnd, intArray, target - intArray[start] -  intArray[start] * groupLength);
+		}
+		
+	}
+	
+
 	
 	public String printMessage() {
 		System.out.print(this.message);
